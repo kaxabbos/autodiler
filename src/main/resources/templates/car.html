@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${car.name}"></title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body>
+<div class="d-xl-flex justify-content-xl-center">
+    <img src="/img/bg.jpg" style="position: fixed;" width="100%" height="100%">
+</div>
+<div th:insert="blocks/nav :: nav"></div>
+<h1 class="text-center text-white d-none d-lg-block"
+    style="margin-top: 0;padding-top: 40px;position: relative;text-shadow: 0 0 20px var(--bs-black);"><span
+        class="fw-semibold site-heading-lower" th:text="${car.name}"></span></h1>
+<section  class="page-section clearfix"
+         style="position: relative;">
+    <div class="container"
+         style="background: rgba(255,255,255,0.85);padding: 15px;margin-bottom: 20px;border-radius: 10px;">
+        <div class="row" style="padding: 5px;margin-bottom: 5px;border-radius: 10px;">
+            <div class="col d-xl-flex justify-content-xl-start align-items-xl-center">
+                <p class="lead">Статус:&nbsp;<span th:text="${car.status.name}"></span></p>
+            </div>
+            <div th:if="${user.id == car.owner.id and (car.status.name() == 'SOLD' or car.status.name() == 'REFUSED')}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/waiting/' + ${car.id}" style="width: 100%;">На
+                    рассмотрение</a>
+            </div>
+            <div th:if="${user.id != car.owner.id and car.status.name() == 'ACTIVE' and user.role.name() == 'CLIENT'}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/on_registration/' + ${car.id}"
+                   style="width: 100%;">Купить</a>
+            </div>
+            <div th:if="${user.id == car.owner.id}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/edit/' + ${car.id}" style="width: 100%;">Редактировать</a>
+            </div>
+            <div th:if="${user.id == car.owner.id}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/delete/' + ${car.id}" style="width: 100%;">Удалить</a>
+            </div>
+            <div th:if="${role == 'MANAGER' and car.status.name() == 'ON_REGISTRATION'}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/sold/' + ${car.id}" style="width: 100%;">Продано</a>
+            </div>
+            <div th:if="${role == 'MANAGER' and car.status.name() == 'ON_REGISTRATION'}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/conf/' + ${car.id}" style="width: 100%;">Отказать в оформлении</a>
+            </div>
+            <div th:if="${role == 'MANAGER' and car.status.name() == 'WAITING'}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/conf/' + ${car.id}" style="width: 100%;">Подтверждено</a>
+            </div>
+            <div th:if="${role == 'MANAGER' and car.status.name() == 'WAITING'}"
+                 class="col d-xl-flex justify-content-xl-center align-items-xl-center">
+                <a class="btn btn-secondary" role="button" th:href="'/cars/refused/' + ${car.id}" style="width: 100%;">Отказано</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="page-section clearfix" style="position: relative;">
+    <div class="container"
+         style="background: rgba(255,255,255,0.85);padding: 15px;margin-bottom: 20px;border-radius: 10px;">
+        <div class="row" style="padding: 5px;margin-bottom: 5px;border-radius: 10px;">
+            <div class="col-auto">
+                <p>Название машины:&nbsp;<span th:text="${car.name}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Год выпуска:&nbsp;<span th:text="${car.description.year}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Пробег:&nbsp;<span th:text="${car.description.mileage}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Страна производства:&nbsp;<span th:text="${car.description.origin}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Адрес центра:&nbsp;<span th:text="${car.description.citySale}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Марка машины:&nbsp;<span th:text="${car.description.brand}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Тип кузова:&nbsp;<span th:text="${car.description.bodyType.name}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Коробка передач:&nbsp;<span th:text="${car.description.transmission.name}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Топливо:&nbsp;<span th:text="${car.description.fuel.name}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Цена:&nbsp;<span th:text="${car.getSale.price}"></span></p>
+            </div>
+            <div class="col-auto">
+                <p>Телефон номер:&nbsp;<span th:text="${car.getSale.tel}"></span></p>
+            </div>
+        </div>
+        <div class="row" style="padding: 5px;margin-bottom: 5px;border-radius: 10px;">
+            <div class="col-auto">
+                <p>Описание:&nbsp;<span th:text="${car.description.description}"></span></p>
+            </div>
+        </div>
+        <div class="row d-xl-flex justify-content-xl-center"
+             style="padding: 5px;margin-bottom: 5px;border-radius: 10px;">
+            <div class="col-6">
+                <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img th:src="'/img/' + ${car.photos[0]}" class="d-block rounded-5 w-100">
+                        </div>
+                        <div th:each="p : ${car.getPartPhotos()}" class="carousel-item">
+                            <img th:src="'/img/' + ${p}" class="d-block rounded-5 w-100">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="page-section clearfix" style="position: relative;">
+    <div class="container"
+         style="background: rgba(255,255,255,0.85);padding: 15px;margin-bottom: 20px;border-radius: 10px;">
+        <form th:action="'/cars/' + ${car.id} + '/comment/add/'" method="post">
+            <div class="row" style="padding: 5px;margin-bottom: 5px;border-radius: 10px;">
+                <div class="col">
+                    <input class="form-control" type="text" name="text" required>
+                </div>
+                <div class="col-auto d-xl-flex justify-content-xl-center">
+                    <button class="btn btn-secondary" type="submit">Добавить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<section th:if="${car.comments.size() > 0}" class="page-section clearfix" style="position: relative;">
+    <div class="container" style="border-radius: 10px;">
+        <div th:each="c : ${car.comments}" class="row"
+             style="background: rgba(255,255,255,0.85);padding: 15px;margin-bottom: 20px;border-radius: 10px;">
+            <div class="col-12">
+                <p>
+                    <span th:text="${c.username}"></span>&nbsp;|&nbsp;<span th:text="${c.date}"></span>
+                </p>
+            </div>
+            <div class="col-12">
+                <p class="lead" th:text="${c.text}"></p>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+<script src="/js/current-day.js"></script>
+<script src="/js/Lightbox-Gallery.js"></script>
+</body>
+
+</html>

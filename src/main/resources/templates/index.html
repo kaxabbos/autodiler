@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Главная</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body>
+<div class="d-xl-flex justify-content-xl-center">
+    <img src="/img/bg.jpg" style="position: fixed;" height="100%" width="100%">
+</div>
+<div th:insert="blocks/nav :: nav"></div>
+<section class="page-section clearfix" style="position: relative;">
+    <div class="container">
+        <form class="bg-light rounded mb-5 p-3" action="/search" method="post">
+            <div class="row">
+                <div class="col-auto d-xl-flex justify-content-xl-center">
+                    <a class="btn btn-dark" role="button" href="/">Сбросить</a>
+                </div>
+                <div class="col d-xl-flex justify-content-xl-center">
+                    <select class="form-select" required="" name="bodyType">
+                        <option th:each="b : ${bodyTypes}" th:value="${b}" th:label="${b.name}" th:selected="${b == bSelect}"></option>
+                    </select>
+                </div>
+                <div class="col d-xl-flex justify-content-xl-center">
+                    <select class="form-select" required="" name="fuel">
+                        <option th:each="f : ${fuels}" th:value="${f}" th:label="${f.name}"  th:selected="${f == fSelect}"></option>
+                    </select>
+                </div>
+                <div class="col d-xl-flex justify-content-xl-center">
+                    <select class="form-select" required="" name="transmission">
+                        <option th:each="t : ${transmissions}" th:value="${t}" th:label="${t.name}"  th:selected="${t == tSelect}"></option>
+                    </select>
+                </div>
+                <div class="col-auto d-xl-flex justify-content-xl-center">
+                    <button class="btn btn-secondary" type="submit">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <div class="row bg-light rounded mb-5 p-1">
+            <div th:each="c : ${cars}" class="col-3">
+                <div class="text-center intro-text p-2 rounded">
+                    <a th:href="'/cars/' + ${c.id}">
+                        <img th:src="'/img/' + ${c.photos[0]}" class="rounded-3 mb-2" width="100%"></a>
+                    <h2 th:text="${c.name}"></h2>
+                    <p class="text-start" style="margin-bottom: 0">Год выпуска:&nbsp;<span th:text="${c.description.year}"></span><br></p>
+                    <p class="text-start" style="margin-bottom: 0">Пробег:&nbsp;<span th:text="${c.description.mileage}"></span><br></p>
+                    <p class="text-start" style="margin-bottom: 0">Адрес центра:&nbsp;<span  th:text="${c.description.citySale}"></span><br></p>
+                    <p class="text-start" style="margin-bottom: 0">Тип кузова:&nbsp;<span  th:text="${c.description.bodyType.name}"></span><br></p>
+                    <p class="text-start" style="margin-bottom: 0">Топливо:&nbsp;<span  th:text="${c.description.fuel.name}"></span><br></p>
+                    <p class="text-start" style="margin-bottom: 0">Коробка передач:&nbsp;<span  th:text="${c.description.transmission.name}"></span><br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+<script src="/js/current-day.js"></script>
+<script src="/js/Lightbox-Gallery.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<nav th:fragment="nav" class="navbar navbar-dark navbar-expand-lg py-lg-4" id="mainNav" style="background: #62482f">
+    <div class="container">
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbarResponsive">
+            <span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="/" style="color: var(--bs-white);">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="/map" style="color: var(--bs-white);">Мы на карте</a></li>
+                <li th:if="${role == 'ADMIN'}" class="nav-item"><a class="nav-link" href="/stats" style="color: var(--bs-white);">Аналитика</a></li>
+                <li th:if="${role == 'ADMIN'}" class="nav-item"><a class="nav-link" href="/users" style="color: var(--bs-white);">Пользователи</a></li>
+                <li th:if="${role == 'MANAGER'}" class="nav-item"><a class="nav-link" href="/cars/apps" style="color: var(--bs-white);">Заявки</a></li>
+                <li th:if="${role == 'CLIENT'}" class="nav-item"><a class="nav-link" href="/cars/my" style="color: var(--bs-white);">Мои</a></li>
+                <li th:if="${role == 'CLIENT'}" class="nav-item"><a class="nav-link" href="/cars/add" style="color: var(--bs-white);">Добавить</a></li>
+                <li th:if="${role == 'NOT'}" class="nav-item"><a class="nav-link" href="/login" style="color: var(--bs-white);">Аутентификация</a></li>
+                <li th:if="${role == 'NOT'}" class="nav-item"><a class="nav-link" href="/reg" style="color: var(--bs-white);">Создать новый профиль</a></li>
+                <li th:if="${role != 'NOT'}" class="nav-item"><a class="nav-link" href="/logout" style="color: var(--bs-white);">Выход</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
